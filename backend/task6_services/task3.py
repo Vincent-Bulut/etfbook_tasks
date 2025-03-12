@@ -38,7 +38,7 @@ if __name__ == '__main__':
     }
 
     daily_ptf_returns = pd.DataFrame(portfolio_returns)
-    # print(daily_ptf_returns)
+    daily_ptf_returns.to_excel('ETF Portfolio Returns.xlsx', index=False)
 
     portfolio_initial_aum = 1E6
 
