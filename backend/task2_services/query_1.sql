@@ -1,16 +1,24 @@
 
-WITH sales_with_lag AS (
+WITH monthly_sales AS (
     SELECT
-        EXTRACT(MONTH FROM sale_date) AS month_number
+        EXTRACT(MONTH FROM sale_date) AS month_number,
         region,
-        SUM(amount) AS total_sales,
-        LAG(SUM(amount), 1, 0) OVER (
-            PARTITION BY region
-            ORDER BY EXTRACT(MONTH FROM sale_date)
-        ) AS prev_month_sales
+        SUM(amount) AS total_sales
     FROM sales
     GROUP BY month_number, region
+),
+sales_with_lag AS (
+    SELECT
+        month_number,
+        region,
+        total_sales,
+        LAG(total_sales, 1, 0) OVER (
+            PARTITION BY region
+            ORDER BY month_number
+        ) AS prev_month_sales
+    FROM monthly_sales
 )
+
 
 SELECT
     month_number,

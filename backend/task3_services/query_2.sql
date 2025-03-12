@@ -26,7 +26,7 @@ segment_transactions AS (
         t.etf_symbol,
         COUNT(t.transaction_id) AS transaction_count,
         SUM(t.amount) AS total_segment_spent,
-        ROUND(AVG(t.amount)::numeric, 2) AS avg_transaction_value  -- Correction ici
+        ROUND(AVG(t.amount)::numeric, 2) AS avg_transaction_value
     FROM customer_segments cs
     JOIN customer_transactions t ON cs.customer_id = t.customer_id
     GROUP BY cs.customer_segment, t.etf_symbol
@@ -42,7 +42,7 @@ SELECT
     st.customer_segment,
     st.etf_symbol,
     st.avg_transaction_value,
-    ROUND((st.total_segment_spent / stt.segment_total * 100)::numeric, 2) AS etf_percentage_share  -- Correction ici
+    ROUND((st.total_segment_spent / stt.segment_total * 100)::numeric, 2) AS etf_percentage_share
 FROM segment_transactions st
 JOIN segment_totals stt ON st.customer_segment = stt.customer_segment
 ORDER BY st.customer_segment, etf_percentage_share DESC;

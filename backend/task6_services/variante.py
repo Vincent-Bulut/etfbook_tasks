@@ -1,6 +1,5 @@
-
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 import yfinance as yf
 import sys
@@ -16,7 +15,9 @@ if __name__ == '__main__':
     returns_data = []
     for etf, weight in loaded_weights.items():
         df = yf.download(etf, start=start_date, end=end_date, progress=False)
-        df['Return'] = df['Close'].pct_change()
+
+        # Compute returns manually
+        df['Return'] = (df['Close'] - df['Close'].shift(1)) / df['Close'].shift(1)
         df = df[['Return']].dropna().T
 
         df.insert(0, "ETF_Symbol", etf)
@@ -73,9 +74,3 @@ if __name__ == '__main__':
 
     df_details = pd.DataFrame(records)
     df_details.to_excel('ETF Portfolio Performance Calculation and Rebalancing.xlsx', index=False)
-
-
-
-
-
-
