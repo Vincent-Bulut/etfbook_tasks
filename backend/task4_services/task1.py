@@ -10,13 +10,12 @@ if __name__ == '__main__':
     print(df_etf_trades.head())
 
     df_merged = pd.merge(
-        df_etf_prices,  # Premier DataFrame
-        df_etf_trades,  # Deuxième DataFrame
-        on=['date', 'etf_symbol'],  # Colonnes communes pour l'association
-        how='inner'  # Méthode join : "inner" = intersection des deux DataFrames
+        df_etf_prices,
+        df_etf_trades,
+        on=['date', 'etf_symbol'],
+        how='inner'
     )
 
-    # Afficher les premières lignes du DataFrame fusionné
     print(df_merged.head())
 
     df_merged['dollar_volume'] = df_merged['closing_price'] * df_merged['trade_volume']

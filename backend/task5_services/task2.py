@@ -19,7 +19,6 @@ if __name__ == '__main__':
 
     final_df = pd.concat(data_frames).sort_values(by=['Date', 'ETF_Symbol']).reset_index(drop=True)
 
-    # Afficher le résultat
     print(final_df)
 
     correlations = {}
@@ -28,7 +27,6 @@ if __name__ == '__main__':
         correlation = etf_data['Closing_Price'].corr(etf_data['Trade_Volume'])
         correlations[etf] = correlation
 
-    # Afficher les résultats
     print("Pearson Correlation Coefficients:")
     for etf, corr in correlations.items():
         print(f"{etf}: {corr:.4f}")
